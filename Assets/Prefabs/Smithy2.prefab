@@ -667,6 +667,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingotIcon: {fileID: 732178764756560885}
+  availableItems: []
+  producedItems: []
   itemPrefab: {fileID: 0}
   uiParent: {fileID: 4744525218494429314}
   queueText: {fileID: 3583687575248325354}

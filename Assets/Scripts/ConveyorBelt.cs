@@ -34,15 +34,20 @@ public class ConveyorBelt : MonoBehaviour {
         MovePieces();
         WrapAround();
         MoveObjectsOnBelt();
-        
+
     }
     public void DisableBelt() {
         beltEnabled = false;
         directionArrows.ForEach(arrow => arrow.color = Color.red);
     }
-    public void EnableBelt() {
+    private void EnableBelt() {
         beltEnabled = true;
         directionArrows.ForEach(arrow => arrow.color = Color.white);
+    }
+    public void TryEnableBelt() {
+        if (objectsOnBelt.Count == 0) {
+            EnableBelt();
+        }
     }
 
     private void MoveObjectsOnBelt() {

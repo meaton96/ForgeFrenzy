@@ -111,6 +111,7 @@ MonoBehaviour:
   - {fileID: -6339536510091495527, guid: b0c92bcb446013d4194f2c49351c3d7e, type: 3}
   - {fileID: 3760750818018851295, guid: 1a9059e13462d3b40ac7dfe790ab0824, type: 3}
   - {fileID: 7196798111279748417, guid: 5cc94bab7a289734e93f3e9d72ea22b4, type: 3}
+  collisionDisableBeltRadius: 0.5
   reactivity: 1
 --- !u!50 &2174699816798065769
 Rigidbody2D:

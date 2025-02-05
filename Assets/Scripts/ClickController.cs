@@ -6,11 +6,17 @@ public class ClickController : MonoBehaviour {
     public Stack<Transform> heldIngots = new Stack<Transform>();
     public static ClickController Instance;
 
+    private Texture2D defaultCursor;
+    public Texture2D cursorTexture;
     private float tapTimer = 0f;
     private int tapCount = 0;
-    [SerializeField] private float tapDelay = 0.3f; 
+
+    [SerializeField] private GameObject broom;
+    
+    [SerializeField] private float tapDelay = 0.3f;
     private Forge lastTappedForge = null;
 
+    private Vector3 lastMousePosition;
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -23,7 +29,7 @@ public class ClickController : MonoBehaviour {
     void Update() {
         HandleInput();
         MoveHeldIngots();
-
+        HandleSweeping();
         if (tapTimer > 0f) {
             tapTimer -= Time.deltaTime;
             if (tapTimer <= 0f) {
@@ -33,6 +39,27 @@ public class ClickController : MonoBehaviour {
                 tapCount = 0;
                 lastTappedForge = null;
             }
+        }
+    }
+
+    private void HandleSweeping() {
+        if (Input.GetMouseButtonDown(1)) 
+        {
+            Cursor.SetCursor(cursorTexture, new Vector2(cursorTexture.width/2, cursorTexture.height/2), CursorMode.Auto);
+            broom.SetActive(true);
+        }
+        else if (Input.GetMouseButtonUp(1)) 
+        {
+            Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+            broom.SetActive(false);
+        }
+
+        if (Input.GetMouseButton(1)) {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+            
+            broom.transform.position = mousePos;
+
         }
     }
 
@@ -72,6 +99,10 @@ public class ClickController : MonoBehaviour {
                     if (h.collider.TryGetComponent<ConveyorMerger>(out var merger)) {
                         merger.ToggleOutputMode();
                         break;
+                    }
+
+                    if (h.collider.TryGetComponent<ConveyorBelt>(out var belt)) {
+                        belt.TryEnableBelt();
                     }
                 }
             }

@@ -191,6 +191,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outputDirection: {x: 1, y: 0}
   arrowSprite: {fileID: 5807701279040858049}
+  outputDistance: 0.4
+  locked: 0
+  outputDir1: {x: 0, y: 0}
+  outputDir2: {x: 0, y: 0}
+  linkedMerger: {fileID: 0}
+  linkedBelt: {fileID: 0}
+  isLinkedBeltCorrectOrientation: 1
 --- !u!61 &8570377703582515288
 BoxCollider2D:
   m_ObjectHideFlags: 0

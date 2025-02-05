@@ -11,8 +11,9 @@ public class Ingot : ConveyerMovableObject {
 
     [SerializeField] private float collisionDisableBeltRadius = 0.5f;
 
-    private const int REACT_LEVEL_2 = 3;
-    private const int REACT_LEVEL_3 = 10;
+    private const int REACT_LEVEL_2 = 2;
+    private const int REACT_LEVEL_3 = 5;
+    private const int MAX_REACTIITY = 5;
 
     public int reactivity = 1;
 
@@ -35,12 +36,15 @@ public class Ingot : ConveyerMovableObject {
 
     }
     public void SetReactivity(int reactivity) {
-        this.reactivity = reactivity;
+        this.reactivity = Mathf.Min(MAX_REACTIITY, reactivity);
         if (reactivity < REACT_LEVEL_2) {
             spriteRenderer.sprite = ingotSprites[0];
         }
         else if (reactivity < REACT_LEVEL_3) {
             spriteRenderer.sprite = ingotSprites[1];
+        }
+        else {
+            spriteRenderer.sprite = ingotSprites[2];    
         }
     }
     private void CheckForBeltDisable() {
@@ -56,8 +60,9 @@ public class Ingot : ConveyerMovableObject {
     }
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.layer == gameObject.layer) {
-            Debug.Log("Same type collision");
+           
             if (reactivity <= 0) return;
+            Debug.Log("Same type collision");
             SetReactivity(reactivity - 1);
 
             if (gameObject.GetInstanceID() > collision.gameObject.GetInstanceID()) return; //only handle collision once

@@ -63,6 +63,7 @@ MonoBehaviour:
   isReversed: 0
   maxConveyerSpeed: 1
   ObjectsOnBeltCount: 0
+  beltEnabled: 1
 --- !u!61 &1806024099219463402
 BoxCollider2D:
   m_ObjectHideFlags: 0
