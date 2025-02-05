@@ -12,38 +12,17 @@ public class ConveyorBelt : MonoBehaviour {
     private List<SpriteRenderer> directionArrows = new List<SpriteRenderer>();
     private float pieceSize = 1f;
     private float maxDistance;
-    private bool isReversed = false;
-    private List<(Rigidbody2D rb, Ingot ingot)> objectsOnBelt = new List<(Rigidbody2D, Ingot)>();
+    [SerializeField] private bool isReversed = false;
+    private List<(Rigidbody2D rb, ConveyerMovableObject movableObject)> objectsOnBelt = new List<(Rigidbody2D, ConveyerMovableObject)>();
     [SerializeField] private float maxConveyerSpeed = 1f;
     public int ObjectsOnBeltCount;
+    public bool beltEnabled = true;
     void Start() {
         for (int i = transform.childCount - 1; i >= 1; i--) {
             pieces.Enqueue(transform.GetChild(i));
             directionArrows.Add(transform.GetChild(i).GetChild(0).GetComponent<SpriteRenderer>());
         }
 
-        if (length > pieces.Count) {
-            var diff = length - pieces.Count;
-            var pieceList = pieces.ToList();
-            var newPieces = new List<Transform>();
-
-            for (int i = 0; i < diff; i++) {
-                var piece = Instantiate(pieces.Peek(),
-                    pieces.Peek().position + (i + 1) * pieceSize * transform.localScale.x * Vector3.right,
-                    Quaternion.identity,
-                    transform);
-
-                newPieces.Add(piece);
-                directionArrows.Add(piece.GetChild(0).GetComponent<SpriteRenderer>());
-            }
-
-            newPieces.Reverse();
-            foreach (var piece in newPieces) {
-                pieceList.Insert(0, piece);
-            }
-
-            pieces = new Queue<Transform>(pieceList);
-        }
 
         maxDistance = pieceSize * length - 1;
     }
@@ -51,21 +30,30 @@ public class ConveyorBelt : MonoBehaviour {
 
     #region Update and Belt Movement
     void Update() {
+        if (!beltEnabled) return;
         MovePieces();
         WrapAround();
         MoveObjectsOnBelt();
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            ToggleDirection();
-        }
+        
+    }
+    public void DisableBelt() {
+        beltEnabled = false;
+        directionArrows.ForEach(arrow => arrow.color = Color.red);
+    }
+    public void EnableBelt() {
+        beltEnabled = true;
+        directionArrows.ForEach(arrow => arrow.color = Color.white);
     }
 
     private void MoveObjectsOnBelt() {
+
         if (!objectsOnBelt.Any()) return;
 
-        foreach (var (rb, ingot) in objectsOnBelt) {
-            if (ingot.isHeld || ingot.insideSmithy) continue;
-
-            Vector2 conveyorDirection = (isReversed ? -1 : 1) * direction.normalized;
+        foreach (var (rb, obj) in objectsOnBelt) {
+            if (obj is Ingot ingot && (ingot.isHeld || ingot.insideSmithy)) {
+                continue;
+            }
+            Vector2 conveyorDirection = (isReversed ? -1 : 1) * direction;
 
             if (rb.linearVelocity.magnitude < maxConveyerSpeed) {
                 rb.AddForce(pushForce * Time.deltaTime * conveyorDirection, ForceMode2D.Force);
@@ -80,7 +68,7 @@ public class ConveyorBelt : MonoBehaviour {
 
     private void MovePieces() {
         foreach (var piece in pieces) {
-            piece.localPosition += (isReversed ? -1 : 1) * speed * Time.deltaTime * direction;
+            piece.localPosition += (isReversed ? -1 : 1) * speed * Time.deltaTime * Vector3.right;
         }
     }
     private void WrapAround() {
@@ -101,7 +89,7 @@ public class ConveyorBelt : MonoBehaviour {
         }
 
     }
-    private void ToggleDirection() {
+    public void ReverseDirection() {
         isReversed = !isReversed;
         List<Transform> piecesList = pieces.ToList();
         piecesList.Reverse();
@@ -114,14 +102,14 @@ public class ConveyorBelt : MonoBehaviour {
     #endregion
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("Ingot")) {
+        if (collision.CompareTag("ConveyorMovable")) {
             objectsOnBelt.Add((collision.GetComponent<Rigidbody2D>(), collision.GetComponent<Ingot>()));
             ObjectsOnBeltCount = objectsOnBelt.Count;
         }
 
     }
     private void OnTriggerExit2D(Collider2D collision) {
-        if (collision.CompareTag("Ingot")) {
+        if (collision.CompareTag("ConveyorMovable")) {
             objectsOnBelt.Remove((collision.GetComponent<Rigidbody2D>(), collision.GetComponent<Ingot>()));
             ObjectsOnBeltCount = objectsOnBelt.Count;
         }

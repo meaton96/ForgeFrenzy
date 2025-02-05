@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ingot
+  - ConveyorMovable
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - Iron
   - Gold
   - Silver
-  - 
-  - 
+  - SmithyCloser
+  - Conveyor
   - 
   - 
   - 

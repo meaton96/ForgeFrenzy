@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Ingot : MonoBehaviour {
+public class Ingot : ConveyerMovableObject {
     public bool isHeld = false;
     public bool insideSmithy = false;
     public enum IngotType { Copper, Iron, Gold, Silver }
@@ -9,10 +9,12 @@ public class Ingot : MonoBehaviour {
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite[] ingotSprites;
 
+    [SerializeField] private float collisionDisableBeltRadius = 0.5f;
+
     private const int REACT_LEVEL_2 = 3;
     private const int REACT_LEVEL_3 = 10;
 
-    [SerializeField] private int reactivity = 1;
+    public int reactivity = 1;
 
     public static readonly Color[] INGOT_COLORS = {
         new Color(184f / 255f, 115f / 255f, 51f / 255f),
@@ -41,27 +43,39 @@ public class Ingot : MonoBehaviour {
             spriteRenderer.sprite = ingotSprites[1];
         }
     }
-
+    private void CheckForBeltDisable() {
+        var hits = Physics2D.OverlapCircleAll(transform.position, collisionDisableBeltRadius);
+        if (hits.Length > 0) {
+            for (int i = 0; i < hits.Length; i++) {
+                var hit = hits[i];
+                if (hit.gameObject.layer == 11) {
+                    hit.gameObject.GetComponent<ConveyorBelt>().DisableBelt();
+                }
+            }
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.layer == gameObject.layer) {
+            Debug.Log("Same type collision");
             if (reactivity <= 0) return;
             SetReactivity(reactivity - 1);
-            
+
             if (gameObject.GetInstanceID() > collision.gameObject.GetInstanceID()) return; //only handle collision once
             //handle same type collision
             if (reactivity >= 0) {
-                
+
                 if (insideSmithy) {
-                    //smithy produces things
+                    Debug.Log("Inside smithy");
                 }
                 else {
                     //spawn the duplicate ingot
                     GameController.Instance.SpawnIngotAt(
-                        new Vector2(transform.position.x -1 , 
-                        transform.position.y), 
+                        new Vector2(transform.position.x - 1,
+                        transform.position.y),
                         ingotType,
                         reactivity);
-                    
+
+                    CheckForBeltDisable();
                 }
 
             }

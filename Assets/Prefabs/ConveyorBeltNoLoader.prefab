@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3544485595866061228}
   - component: {fileID: 8476949333824246306}
   - component: {fileID: 1806024099219463402}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ConveyorBeltNoLoader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,10 +56,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9757836d446993f44815cd29be328267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushForce: 100
+  pushForce: 600
   speed: 0.5
   direction: {x: 1, y: 0, z: 0}
   length: 10
+  isReversed: 0
+  maxConveyerSpeed: 1
   ObjectsOnBeltCount: 0
 --- !u!61 &1806024099219463402
 BoxCollider2D:
@@ -95,7 +97,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 4.5, y: 0}
+  m_Offset: {x: 4.77, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -105,7 +107,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 10, y: 1}
+  m_Size: {x: 9, y: 0.75}
   m_EdgeRadius: 0
 --- !u!1 &6237618669591893290
 GameObject:
@@ -116,7 +118,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1762117820024158329}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,6 +148,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3544485595866061228}
     m_Modifications:
+    - target: {fileID: 291615201547346152, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6899700843487950906, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
@@ -190,6 +196,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConveyerPiece (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -208,6 +218,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3544485595866061228}
     m_Modifications:
+    - target: {fileID: 291615201547346152, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6899700843487950906, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -252,6 +266,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConveyerPiece
       objectReference: {fileID: 0}
+    - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -270,6 +288,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3544485595866061228}
     m_Modifications:
+    - target: {fileID: 291615201547346152, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6899700843487950906, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2
@@ -314,6 +336,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConveyerPiece (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -332,6 +358,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3544485595866061228}
     m_Modifications:
+    - target: {fileID: 291615201547346152, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6899700843487950906, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6
@@ -376,6 +406,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConveyerPiece (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -394,6 +428,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3544485595866061228}
     m_Modifications:
+    - target: {fileID: 291615201547346152, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6899700843487950906, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
@@ -438,6 +476,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConveyerPiece (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -456,6 +498,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3544485595866061228}
     m_Modifications:
+    - target: {fileID: 291615201547346152, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6899700843487950906, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8
@@ -500,6 +546,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConveyerPiece (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -518,6 +568,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3544485595866061228}
     m_Modifications:
+    - target: {fileID: 291615201547346152, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6899700843487950906, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
@@ -562,6 +616,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConveyerPiece (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -580,6 +638,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3544485595866061228}
     m_Modifications:
+    - target: {fileID: 291615201547346152, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6899700843487950906, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9
@@ -624,6 +686,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConveyerPiece (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -642,6 +708,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3544485595866061228}
     m_Modifications:
+    - target: {fileID: 291615201547346152, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6899700843487950906, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7
@@ -686,6 +756,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConveyerPiece (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -704,6 +778,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3544485595866061228}
     m_Modifications:
+    - target: {fileID: 291615201547346152, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6899700843487950906, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4
@@ -747,6 +825,10 @@ PrefabInstance:
     - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
       propertyPath: m_Name
       value: ConveyerPiece (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036393482714223413, guid: 1b4316fb7e06f7a458b6e880e7c8ba7b, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

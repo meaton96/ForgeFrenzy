@@ -8,6 +8,7 @@ public class Forge : MonoBehaviour
     public List<Ingot> availableIngots = new List<Ingot>();
     public List<Ingot> activeIngots = new List<Ingot>();
     [SerializeField] GameObject ingotPrefab;
+    
     private void Start() {
         for (int i = 0; i < allowedIngotCount; i++) {
             availableIngots.Add(Instantiate(ingotPrefab, transform.position, Quaternion.identity).GetComponent<Ingot>());
@@ -15,9 +16,11 @@ public class Forge : MonoBehaviour
             availableIngots[i].gameObject.SetActive(false);
         }
     }
-    public Ingot Spawn() {
+    public Ingot Spawn(int tapCount) {
+        //Debug.Log($"Forge spawn with tap count: {tapCount}");
         if (activeIngots.Count >= allowedIngotCount) return null;
         var ingot = availableIngots[0];
+        ingot.SetReactivity(tapCount);
         activeIngots.Add(ingot);
         availableIngots.RemoveAt(0);
         ingot.gameObject.SetActive(true);
@@ -36,7 +39,6 @@ public class Forge : MonoBehaviour
     }
     public void DestroyIngot(Ingot ingot) {
         if (!activeIngots.Contains(ingot)) return;
-        Debug.Log($"Removing ingot: {ingotType}");
         if (ingot.isHeld) {
             ClickController.Instance.heldIngots.Clear();
             ingot.isHeld = false;
