@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
+//Represents a conveyor belt that moves objects
 public class ConveyorBelt : MonoBehaviour {
     [SerializeField] private float pushForce = 100f;
     [SerializeField] private float speed = .1f;
@@ -36,20 +37,23 @@ public class ConveyorBelt : MonoBehaviour {
         MoveObjectsOnBelt();
 
     }
+    //Disables the belt
     public void DisableBelt() {
         beltEnabled = false;
         directionArrows.ForEach(arrow => arrow.color = Color.red);
     }
+    //Enables the belt
     private void EnableBelt() {
         beltEnabled = true;
         directionArrows.ForEach(arrow => arrow.color = Color.white);
     }
+    //Tries to enable the belt if there are no objects on the belt
     public void TryEnableBelt() {
         if (objectsOnBelt.Count == 0) {
             EnableBelt();
         }
     }
-
+    //Move any objects that are on the belt
     private void MoveObjectsOnBelt() {
 
         if (!objectsOnBelt.Any()) return;
@@ -70,12 +74,13 @@ public class ConveyorBelt : MonoBehaviour {
         }
     }
 
-
+    //Moves the pieces of the conveyor belt
     private void MovePieces() {
         foreach (var piece in pieces) {
             piece.localPosition += (isReversed ? -1 : 1) * speed * Time.deltaTime * Vector3.right;
         }
     }
+    //handles the wrapping around of the conveyor belt pieces
     private void WrapAround() {
 
         if (isReversed) {
@@ -94,6 +99,7 @@ public class ConveyorBelt : MonoBehaviour {
         }
 
     }
+    //Reverses the direction of the conveyor belt
     public void ReverseDirection() {
         isReversed = !isReversed;
         List<Transform> piecesList = pieces.ToList();
@@ -106,6 +112,7 @@ public class ConveyorBelt : MonoBehaviour {
     }
     #endregion
 
+    //add or remove the objects from the tracking lists
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("ConveyorMovable")) {
             objectsOnBelt.Add((collision.GetComponent<Rigidbody2D>(), collision.GetComponent<Ingot>()));

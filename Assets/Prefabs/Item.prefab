@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8621574751097777411}
   - component: {fileID: 9027420091544827646}
   - component: {fileID: 538836294982030877}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Item
   m_TagString: ConveyorMovable
   m_Icon: {fileID: 0}
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.69, y: 2.6, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_LocalScale: {x: 0.12, y: 0.12, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -136,6 +136,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 275f7f172d9514849a05425c2eedc768, type: 3}
   - {fileID: 21300000, guid: cf18a6525f8fd4cdfbe87a4e7a1058c1, type: 3}
   - {fileID: 21300000, guid: a75539ef7fb0245d4af46fcb3d6a1f7c, type: 3}
+  createdBySmithy: -1
 --- !u!61 &538836294982030877
 BoxCollider2D:
   m_ObjectHideFlags: 0

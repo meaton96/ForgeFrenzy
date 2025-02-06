@@ -5,6 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Represents a "Smithy" building in the game
+//the Smithy takes in Ingots and stores then temporarily
+//It takes duplicate ingots as input and produces items based on the reactivity of the ingots
 public class Smithy : MonoBehaviour {
     [SerializeField] private SpriteRenderer ingotIcon;
     private Ingot currentHeldIngot;
@@ -24,23 +27,21 @@ public class Smithy : MonoBehaviour {
         {Ingot.IngotType.Silver, Item.ItemType.Arrows}
     };
     public float productionTime = 1f;
+    [SerializeField] private int SmithyID;
     private Coroutine smithingCoroutine;
     [SerializeField] private GameObject smithyCloser;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start() {
         for (int i = 0; i < MAX_ITEMS; i++) {
             var item = Instantiate(itemPrefab, transform).GetComponent<Item>();
+            item.createdBySmithy = SmithyID;
             item.gameObject.SetActive(false);
             availableItems.Add(item);
 
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
-
+    //Handles the production queue of the smithy and produces items over time
     private System.Collections.IEnumerator HandleProductionQueue() {
         while (queuedProduction.Count > 0) {
             yield return new WaitForSeconds(productionTime);
@@ -48,13 +49,14 @@ public class Smithy : MonoBehaviour {
             producedItems.Add(item);
             item.gameObject.SetActive(true);
             item.transform.position = new Vector3(transform.position.x + .4f, transform.position.y, 0);
-            
+
         }
         uiParent.SetActive(false);
         ClearCurrentHeldIngot();
         smithyCloser.SetActive(false);
         smithingCoroutine = null;
     }
+    //Begin the process of producing items from the ingots
     private void ProduceItems(int numItems, Item.ItemType itemType) {
         smithyCloser.SetActive(true);
         Sprite itemSprite = null;
@@ -73,11 +75,19 @@ public class Smithy : MonoBehaviour {
             smithingCoroutine = StartCoroutine(HandleProductionQueue());
         }
     }
+    //remove references to the held ingot, called when finished crafting
+    //and if the held ingot collides with another ingot of a different type
     public void ClearCurrentHeldIngot() {
         currentHeldIngot = null;
         ingotIcon.color = Color.clear;
     }
-
+    //Recycle an item back into the available items list
+    public void RecycleItem(Item item) {
+        item.gameObject.SetActive(false);
+        availableItems.Add(item);
+        producedItems.Remove(item);
+    }
+    //Handle when an ingot enters the smithy
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.TryGetComponent(out Ingot ingot)) {
             if (ingot.isHeld) return;

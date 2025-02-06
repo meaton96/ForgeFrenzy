@@ -28,7 +28,6 @@ public class ClickController : MonoBehaviour {
 
     void Update() {
         HandleInput();
-        MoveHeldIngots();
         HandleSweeping();
         if (tapTimer > 0f) {
             tapTimer -= Time.deltaTime;
@@ -42,6 +41,7 @@ public class ClickController : MonoBehaviour {
         }
     }
 
+    //Handles the "Broom" sweeping mechanic
     private void HandleSweeping() {
         if (Input.GetMouseButtonDown(1)) 
         {
@@ -63,12 +63,8 @@ public class ClickController : MonoBehaviour {
         }
     }
 
-    private void MoveHeldIngots() {
-        if (heldIngots.Count == 0) return;
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        heldIngots.Peek().position = new Vector3(mousePos.x, mousePos.y, 0);
-    }
-
+    
+    //Handle mouse input
     private void HandleInput() {
         if (Input.GetMouseButtonDown(0)) {
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -76,6 +72,7 @@ public class ClickController : MonoBehaviour {
 
             if (hits.Length > 0) {
                 foreach (var h in hits) {
+                    //left click forge
                     if (h.collider.TryGetComponent<Forge>(out var forge)) {
                         if (heldIngots.Count > 0)
                             return;
@@ -95,12 +92,12 @@ public class ClickController : MonoBehaviour {
                         }
                         break;
                     }
-
+                    //left click conveyor merger
                     if (h.collider.TryGetComponent<ConveyorMerger>(out var merger)) {
                         merger.ToggleOutputMode();
                         break;
                     }
-
+                    //left click conveyor belt
                     if (h.collider.TryGetComponent<ConveyorBelt>(out var belt)) {
                         belt.TryEnableBelt();
                     }

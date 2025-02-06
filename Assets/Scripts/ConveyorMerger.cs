@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Handles converging of conveyer belts
 public class ConveyorMerger : MonoBehaviour
 {
     [SerializeField] private Vector2 outputDirection = Vector2.right;
@@ -13,34 +14,13 @@ public class ConveyorMerger : MonoBehaviour
     [SerializeField] ConveyorMerger linkedMerger;
     [SerializeField] ConveyorBelt linkedBelt;
     [SerializeField] bool isLinkedBeltCorrectOrientation = true;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void RotateOutputClockwise() {
-        if (locked) return;
-        if (outputDirection == Vector2.right)
-            SetOutputDirection(Vector2.down);
-        else if (outputDirection == Vector2.down)
-            SetOutputDirection(Vector2.left);
-        else if (outputDirection == Vector2.left)
-            SetOutputDirection(Vector2.up);
-        else if (outputDirection == Vector2.up)
-            SetOutputDirection(Vector2.right);
-
-        
-    }
+    //Toggles between the two output directions for the 
     public void ToggleOutputMode() {
         if (locked) return;
         SetOutputDirection(outputDirection == outputDir1 ? outputDir2 : outputDir1);
 
+        //check if the linked merger would be facing in the same direction as this one and if so rotate it
         if (linkedMerger != null) {
             if (outputDirection == outputDir2) {
                 if (linkedMerger.outputDirection == linkedMerger.outputDir2) {
@@ -49,6 +29,8 @@ public class ConveyorMerger : MonoBehaviour
                 }
             }
         }
+        //check if the linked belt needs to be reversed
+        //changes the belt in the middle between up or down
         if (linkedBelt != null) {
             if (outputDirection == outputDir2) {
                 if (!isLinkedBeltCorrectOrientation) {
@@ -63,12 +45,14 @@ public class ConveyorMerger : MonoBehaviour
         }
     }
 
+    //Sets the output direction of the merger
     public void SetOutputDirection(Vector2 direction) {
         if (locked) return;
         outputDirection = direction;
         arrowSprite.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, outputDirection));
        
     }
+    //Handle when an ingot enters the merger
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.TryGetComponent(out Ingot ingot)) {
             var rb = ingot.GetComponent<Rigidbody2D>();

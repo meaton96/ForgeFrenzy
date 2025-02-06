@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//represents an item that was crafted in the smithy
 public class Item : ConveyerMovableObject
 {
     [SerializeField] private SpriteRenderer spriteRenderer; 
@@ -11,17 +12,7 @@ public class Item : ConveyerMovableObject
     }
     public ItemType itemType = ItemType.Axe;
     [SerializeField] private Sprite[] itemSprites;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int createdBySmithy = -1;
 
     public Sprite SetType(ItemType type) {
         itemType = type;
