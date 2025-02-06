@@ -7,7 +7,6 @@ public class SpawnController : MonoBehaviour
 
     public static SpawnController Instance;
     public List<Spawner> spawners = new List<Spawner>();
-    int currentSpawnerIndex = 0;
     private void Awake() {
         Instance = this;
 
@@ -27,5 +26,17 @@ public class SpawnController : MonoBehaviour
 
     void BeginSpawningIngots() {
         spawners.ForEach(spawner => spawner.spawnEnabled = true);
+    }
+    public Ingot SpawnIngotAt(Ingot.IngotType ingotType, Vector3 location) {
+        return spawners[(int)ingotType].SpawnIngotAt(location);
+    }
+    public void RecycleIngot(Ingot.IngotType ingotType, int ingotId) {
+        spawners[(int)ingotType].RecycleIngot(ingotId);
+    }
+    public void ResetIngotPosition(Ingot.IngotType ingotType, int ingotId) {
+        spawners[(int)ingotType].ResetIngotPosition(ingotId);
+    }
+    public void FireIngotCannon(Ingot.IngotType ingotType, Vector3 position, bool left = true) {
+        spawners[(int)ingotType].SpawnIngotFromCannon(position, left);
     }
 }

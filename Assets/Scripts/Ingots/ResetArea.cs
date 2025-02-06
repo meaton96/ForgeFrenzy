@@ -14,6 +14,7 @@ public class ResetArea : MonoBehaviour
         
     }
     private void OnTriggerEnter(Collider other) {
-        
+        //Debug.Log(other);
+        SpawnController.Instance.ResetIngotPosition((Ingot.IngotType)other.gameObject.layer - 6, other.gameObject.GetInstanceID());
     }
 }
