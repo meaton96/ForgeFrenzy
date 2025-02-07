@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.UIElements;
-using PlasticGui.WorkspaceWindow;
+
+//Represents a spawner that creates Ingots
 public class Spawner : MonoBehaviour {
     [Header("Spawner Settings")]
     [SerializeField] Ingot.IngotType spawnType;
@@ -14,7 +14,6 @@ public class Spawner : MonoBehaviour {
     public int maxSpawnCount = 20;
     public int spawnCounter = 0;
     public int createPerFrameOnStart = 2;
-    //public List<(Ingot ingot, int id)> availableIngots = new List<(Ingot, int)>();
     public Dictionary<int, Ingot> availableIngots = new Dictionary<int, Ingot>();
     public Dictionary<int, Ingot> allIngots = new Dictionary<int, Ingot>();
     public float spawnRate = 1;
@@ -27,10 +26,10 @@ public class Spawner : MonoBehaviour {
     [Header("Collision Settings")]
 
     [SerializeField] private float collisionDisableTimer = .2f;
-    //public List<Ingot> spawnedIngots = new List<Ingot>();
     private List<(float timer, Collider collider)> spawnedColliders = new List<(float, Collider)>();
     private List<Collider> cannonFiredColliders = new List<Collider>();
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+
     void Start() {
         if (spawnRate == 0) spawnRate = 1;
     }
@@ -74,8 +73,9 @@ public class Spawner : MonoBehaviour {
         }
     }
 
+    //Spawn ingots at a rate of 1 per second / spawner
     public void HandleIngotSpawning() {
-        //handle ingot spawning
+        
         if (spawnEnabled) {
             spawnTimer += Time.deltaTime;
             if (spawnTimer >= 1 / spawnRate) {
@@ -86,9 +86,9 @@ public class Spawner : MonoBehaviour {
             }
         }
     }
-
+    //handle creating ingot game objects on game start
     public void HandleIngotCreation() {
-        //handle ingot creation
+        
         if (createdCount < maxIngots) {
             for (int i = 0; i < createPerFrameOnStart; i++) {
                 CreateIngot();
@@ -96,7 +96,7 @@ public class Spawner : MonoBehaviour {
             }
         }
     }
-    //Create an ingot at a random spawn point
+    //Instantiate the ingot game objects on game start and add them to the available ingots list
     public void CreateIngot() {
         if (createdCount > maxIngots) return;
         Ingot ingot = Instantiate(ingotPrefab, new Vector3(-50, -50, -50), Quaternion.identity).GetComponent<Ingot>();
@@ -119,7 +119,8 @@ public class Spawner : MonoBehaviour {
 
         
     }
-
+    //Spawns an ingot at a specific location
+    //accepts an additional parameter to re-enable the collider after a short delay
     public Ingot SpawnIngotAt(Vector3 location, bool reenableCollider = true) {
         if (availableIngots.Count == 0) return null;
         Ingot ingot = availableIngots.First().Value;
@@ -132,12 +133,16 @@ public class Spawner : MonoBehaviour {
 
         //temp disable the collider on spawn
         ingot.ingotCollider.enabled = false;
+
+        //if collider is to be re-enabled, add it to the list to track
         if (reenableCollider)
             spawnedColliders.Add((collisionDisableTimer, ingot.ingotCollider));
         ingot.gameObject.SetActive(true);
+
         spawnCounter++;
         return ingot;
     }
+    //Spawns an ingot at the cannon location and fires it towards the target position
     public Ingot SpawnIngotFromCannon(Vector3 targetPosition, bool left = true) {
         if (availableIngots.Count == 0) return null;
         var spawnPos = left ? cannonPosition : new Vector3(-cannonPosition.x, cannonPosition.y, cannonPosition.z);
@@ -160,6 +165,7 @@ public class Spawner : MonoBehaviour {
         }
 
     }
+    //move an active ingot back to a random spawn point once it has fallen through the floor
     public void ResetIngotPosition(int id) {
         if (allIngots.TryGetValue(id, out Ingot ingot)) {
             ingot.transform.position = GetRandomSpawnPoint();
@@ -172,6 +178,13 @@ public class Spawner : MonoBehaviour {
         float y = Random.Range(bounds.min.y, bounds.max.y);
 
         return new Vector3(x, y, 0f);
+    }
+    //get an ingot by its id value (instanceID)
+    public Ingot GetIngotById(int id) {
+        if (allIngots.TryGetValue(id, out Ingot ingot)) {
+            return ingot;
+        }
+        return null;
     }
 
 }

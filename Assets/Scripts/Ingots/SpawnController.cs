@@ -1,32 +1,27 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+//Class to provide Singleton access to the Spawners
 public class SpawnController : MonoBehaviour
 {
-   // public GameObject ingotPrefab; //The prefab for the ingot
-    //public BoxCollider spawnArea;
 
     public static SpawnController Instance;
     public List<Spawner> spawners = new List<Spawner>();
+    [SerializeField] private GameObject startButton;
+    public bool spawningEnabled = false;
     private void Awake() {
         Instance = this;
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        HandleInput();
-    }
-
-    void HandleInput() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            BeginSpawningIngots();
-        }
-    }
-
-    void BeginSpawningIngots() {
+    
+    //Starts the game
+    public void BeginSpawningIngots() {
+        spawningEnabled = true;
+        startButton.SetActive(false);
         spawners.ForEach(spawner => spawner.spawnEnabled = true);
     }
+    //Pass through functions to the spawners
     public Ingot SpawnIngotAt(Ingot.IngotType ingotType, Vector3 location) {
         return spawners[(int)ingotType].SpawnIngotAt(location);
     }
@@ -39,4 +34,9 @@ public class SpawnController : MonoBehaviour
     public void FireIngotCannon(Ingot.IngotType ingotType, Vector3 position, bool left = true) {
         spawners[(int)ingotType].SpawnIngotFromCannon(position, left);
     }
+    public Ingot GetIngotByLayerAndId(int layer, int id) {
+        return spawners[layer-6].GetIngotById(id);
+    }
+
+    public void ReturnToMainMenu() => SceneManager.LoadScene(0);
 }

@@ -11,23 +11,26 @@ public class Ingot : MonoBehaviour {
     public Rigidbody ingotRigidbody;
     
     [SerializeField] private float collisionPushForce = 10f;
-    void Start() {
 
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
 
     public void SetType(IngotType type) {
         ingotType = type;
         ingotRenderer.material = ingotMaterials[(int)ingotType];
     }
     public void HandleSameCollision(Collision collision) {
-        ingotRigidbody.AddForce(collision.contacts[0].normal * collisionPushForce, ForceMode.Impulse);
-        collision.rigidbody.AddForce(-collision.contacts[0].normal * collisionPushForce, ForceMode.Impulse);
-        SpawnController.Instance.SpawnIngotAt(ingotType, collision.contacts[0].point);
+        //push ingots apart
+        Vector3 dir = collision.GetContact(0).normal;
+        ingotRigidbody.AddForce(dir * collisionPushForce, ForceMode.Impulse);
+        collision.rigidbody.AddForce(-dir * collisionPushForce, ForceMode.Impulse);
+
+        //add them to the smithy
+        Smithy.Instance.AddIngotToSmith(
+            SpawnController.Instance.GetIngotByLayerAndId(collision.gameObject.layer, 
+            collision.gameObject.GetInstanceID()));       
+        Smithy.Instance.AddIngotToSmith(this);
+        
+        //spawn the new ingot
+        SpawnController.Instance.SpawnIngotAt(ingotType, collision.GetContact(0).point);
     }
 
     public void OnCollisionEnter(Collision collision) {

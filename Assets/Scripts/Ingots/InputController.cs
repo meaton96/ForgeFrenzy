@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+//basic mouse and keyboard input for game demo
 public class InputController : MonoBehaviour {
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float forceStrength = 10f;
 
-    private Rigidbody grabbedRigidbody;
-    private float dragDistance;
+ 
 
     private int activeCannon = 0;
 
@@ -37,6 +37,8 @@ public class InputController : MonoBehaviour {
 
 
         if (Input.GetMouseButtonDown(0)) {
+            if (!SpawnController.Instance.spawningEnabled)
+                return;
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = Mathf.Abs(Camera.main.transform.position.z); 
 
@@ -44,6 +46,12 @@ public class InputController : MonoBehaviour {
             SpawnController.Instance.FireIngotCannon((Ingot.IngotType)activeCannon, new Vector3(worldPos.x, worldPos.y, 0f), worldPos.x < 0);
         }
 
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            OrderManager.Instance.AddRandomOrder();
+        }
+
     }
+
+    
 
 }

@@ -74,4 +74,6 @@ public class GameController : MonoBehaviour {
     public void RecycleItem(Item item) {
         smithies[item.createdBySmithy].RecycleItem(item);
     }
+
+    public void ReturnToMainMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 }
