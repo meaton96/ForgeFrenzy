@@ -25,7 +25,7 @@ This game would be a 2D/top down/ or isometric game focused on crafting ingots i
     - Clicking on a merger will change its direction (center 2)
     - Clicking on a disabled belt will attempt to re-enable it
     - Right click and drag to use the Broom to sweep away piled up ingots
-- Space bar will create a random order on the right side of the screen for testing demonstration
+- Space bar will create a random order on the right side of the screen for demonstration
 
 ## Ingot Insanity
 
@@ -40,3 +40,4 @@ Tired of waiting for conveyor belts to deliver your items to your customers? Int
 
 - Left click to fire cannon
 - Keyboard 1-4 to select which type of ingot to fire
+- Space bar will create a random order for demonstration
